@@ -1,3 +1,24 @@
+$chatBoxMargin: 15rem;
+
+body {
+  margin-top: -15rem !important;
+}
+
 .euiPageTemplate {
   padding-block-start: 0 !important;
+}
+
+.sideBar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chatBox {
+  margin-top: $chatBoxMargin !important;
+  height: calc(
+    100vh - #{$chatBoxMargin}
+  );
+  display: flex;
+  flex-direction: column;
 }

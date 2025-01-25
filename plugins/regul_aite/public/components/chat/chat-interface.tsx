@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { EuiPanel, EuiFieldText, EuiButtonIcon, EuiSpacer } from '@elastic/eui';
 import MessageBubble from './message-bubble';
+import "../app.scss";
 interface Message {
   id: string;
   content: string;
@@ -77,7 +78,7 @@ const ChatInterface: React.FC = () => {
 
 
   return (
-      <EuiPanel style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <EuiPanel className='chatBox'>
         {/* Message Display */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '1rem' }}>
           {messages.map((message) => (
