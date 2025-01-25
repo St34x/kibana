@@ -16,4 +16,5 @@ build --build_metadata=TEST_GROUPS=//packages
 build:offline --bes_backend="" --remote_cache=""
 run:offline --bes_backend="" --remote_cache=""
 
-##
+## REACT_18 env var for plugin dev
+build --define=REACT_18=true

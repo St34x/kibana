@@ -12,7 +12,7 @@ export class RegulAitePlugin implements Plugin<RegulAitePluginSetup, RegulAitePl
     // Register an application into the side navigation menu
     core.application.register({
       id: 'regulAite',
-      title: PLUGIN_NAME,
+      title: 'RegulAIte',
       async mount(params: AppMountParameters) {
         // Load application bundle
         const { renderApp } = await import('./application');

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { i18n } from '@kbn/i18n';
 import { FormattedMessage, I18nProvider } from '@kbn/i18n-react';
-import { BrowserRouter as Router } from '@kbn/shared-ux-router';
-import { EuiButton, EuiHorizontalRule, EuiPageTemplate, EuiTitle, EuiText } from '@elastic/eui';
+import { BrowserRouter as Router, Route, Routes } from '@kbn/shared-ux-router';
+import { EuiButton, EuiHorizontalRule, EuiPageTemplate, EuiTitle, EuiText, EuiSideNav } from '@elastic/eui';
 import type { CoreStart } from '@kbn/core/public';
 import type { NavigationPublicPluginStart } from '@kbn/navigation-plugin/public';
 
 import { PLUGIN_ID, PLUGIN_NAME } from '../../common';
+import ChatInterface from './chat/chat-interface';
 
 interface RegulAiteAppDeps {
   basename: string;
@@ -15,75 +16,46 @@ interface RegulAiteAppDeps {
   navigation: NavigationPublicPluginStart;
 }
 
+interface ExampleResponse {
+  time: string;
+}
+
 export const RegulAiteApp = ({ basename, notifications, http, navigation }: RegulAiteAppDeps) => {
-  // Use React hooks to manage state.
   const [timestamp, setTimestamp] = useState<string | undefined>();
 
-  const onClickHandler = () => {
-    // Use the core http service to make a response to the server API.
-    http.get('/api/regul_aite/example').then((res) => {
-      setTimestamp(res.time);
-      // Use the core notifications service to display a success message.
-      notifications.toasts.addSuccess(
-        i18n.translate('regulAite.dataUpdated', {
-          defaultMessage: 'Data updated',
-        })
-      );
-    });
-  };
+  const sideNavItems = [
+    {
+      name: PLUGIN_NAME,
+      id: 'main',
+      href: `${basename}`,
+      items: [
+        { name: 'Chat', id: 'chat', href: `${basename}/regulaite` },
+      ],
+    },
+  ];
 
-  // Render the application DOM.
-  // Note that `navigation.ui.TopNavMenu` is a stateful component exported on the `navigation` plugin's start contract.
   return (
     <Router basename={basename}>
       <I18nProvider>
         <>
           <navigation.ui.TopNavMenu
             appName={PLUGIN_ID}
-            showSearchBar={true}
+            showSearchBar={false}
             useDefaultBehaviors={true}
           />
           <EuiPageTemplate restrictWidth="1000px">
-            <EuiPageTemplate.Header>
-              <EuiTitle size="l">
-                <h1>
-                  <FormattedMessage
-                    id="regulAite.helloWorldText"
-                    defaultMessage="{name}"
-                    values={{ name: PLUGIN_NAME }}
-                  />
-                </h1>
-              </EuiTitle>
-            </EuiPageTemplate.Header>
-            <EuiPageTemplate.Section>
-              <EuiTitle>
-                <h2>
-                  <FormattedMessage
-                    id="regulAite.congratulationsTitle"
-                    defaultMessage="Congratulations, you have successfully created a new Kibana Plugin!"
-                  />
-                </h2>
-              </EuiTitle>
-              <EuiText>
-                <p>
-                  <FormattedMessage
-                    id="regulAite.content"
-                    defaultMessage="Look through the generated code and check out the plugin development documentation."
-                  />
-                </p>
-                <EuiHorizontalRule />
-                <p>
-                  <FormattedMessage
-                    id="regulAite.timestampText"
-                    defaultMessage="Last timestamp: {time}"
-                    values={{ time: timestamp ? timestamp : 'Unknown' }}
-                  />
-                </p>
-                <EuiButton type="primary" size="s" onClick={onClickHandler}>
-                  <FormattedMessage id="regulAite.buttonText" defaultMessage="Get data" ignoreTag />
-                </EuiButton>
-              </EuiText>
-            </EuiPageTemplate.Section>
+            <EuiSideNav items={sideNavItems} aria-label="Side Navigation" />
+            <Routes>
+              {/* Home Route */}
+              <Route
+                path="/regulaite/chat"
+                render={() => (
+                  <EuiPageTemplate.Section>
+                    <ChatInterface />
+                  </EuiPageTemplate.Section>
+                )}
+              />
+            </Routes>
           </EuiPageTemplate>
         </>
       </I18nProvider>
