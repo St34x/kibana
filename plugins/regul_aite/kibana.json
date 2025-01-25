@@ -1,5 +1,5 @@
 {
-  "id": "regulAite",
+  "id": "regulaite",
   "version": "1.0.0",
   "kibanaVersion": "kibana",
   "owner": {
@@ -9,6 +9,6 @@
   "description": "AI assistant for GRC teams.",
   "server": true,
   "ui": true,
-  "requiredPlugins": ["navigation"],
+  "requiredPlugins": ["navigation", "kibanaReact", "visualizations", "data", "management"],
   "optionalPlugins": []
 }

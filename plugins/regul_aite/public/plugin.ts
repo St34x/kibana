@@ -11,7 +11,7 @@ export class RegulAitePlugin implements Plugin<RegulAitePluginSetup, RegulAitePl
   public setup(core: CoreSetup): RegulAitePluginSetup {
     // Register an application into the side navigation menu
     core.application.register({
-      id: 'regulAite',
+      id: 'regulaite',
       title: 'RegulAIte',
       async mount(params: AppMountParameters) {
         // Load application bundle

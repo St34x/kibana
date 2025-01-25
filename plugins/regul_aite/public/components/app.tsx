@@ -4,8 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from '@kbn/shared-ux-router';
 import { EuiPageTemplate, EuiSideNav } from '@elastic/eui';
 import type { CoreStart } from '@kbn/core/public';
 import type { NavigationPublicPluginStart } from '@kbn/navigation-plugin/public';
-
-import { PLUGIN_ID, PLUGIN_NAME } from '../../common';
+import { PLUGIN_ID } from '../../common';
 import ChatInterface from './chat/chat-interface';
 
 interface RegulAiteAppDeps {
@@ -18,11 +17,11 @@ interface RegulAiteAppDeps {
 export const RegulAiteApp = ({ basename, notifications, http, navigation }: RegulAiteAppDeps) => {
   const sideNavItems = [
     {
-      name: PLUGIN_NAME,
+      name: 'RegulAIte',
       id: 'main',
       href: `${basename}`,
       items: [
-        { name: 'Chat', id: 'chat', href: `${basename}/regulaite` },
+        { name: 'Chat', id: 'chat', href: `${basename}/chat` },
       ],
     },
   ];
@@ -41,11 +40,11 @@ export const RegulAiteApp = ({ basename, notifications, http, navigation }: Regu
             <Routes>
               {/* Home Route */}
               <Route
-                path="/regulaite/chat"
+                path="/chat"
                 render={() => (
-                  <EuiPageTemplate.Section>
-                    <ChatInterface />
-                  </EuiPageTemplate.Section>
+                    <EuiPageTemplate.Section>
+                      <ChatInterface />
+                    </EuiPageTemplate.Section>
                 )}
               />
             </Routes>
