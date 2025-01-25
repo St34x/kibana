@@ -1,0 +1,7 @@
+{
+  "prefix": "regulAite",
+  "paths": {
+    "regulAite": "."
+  },
+  "translations": ["translations/ja-JP.json"]
+}
