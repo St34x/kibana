@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { EuiPanel, EuiFieldText, EuiButtonIcon, EuiSpacer, EuiText } from '@elastic/eui';
+import { EuiPanel, EuiFieldText, EuiButtonIcon, EuiSpacer } from '@elastic/eui';
 import MessageBubble from './message-bubble';
 
 interface Message {
