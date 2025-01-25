@@ -20,9 +20,7 @@ export const RegulAiteApp = ({ basename, notifications, http, navigation }: Regu
       name: 'RegulAIte',
       id: 'main',
       href: `${basename}`,
-      items: [
-        { name: 'Chat', id: 'chat', href: `${basename}/chat` },
-      ],
+      items: [{ name: 'Chat', id: 'chat', href: `${basename}/chat` }],
     },
   ];
 
@@ -35,19 +33,35 @@ export const RegulAiteApp = ({ basename, notifications, http, navigation }: Regu
             showSearchBar={false}
             useDefaultBehaviors={true}
           />
-          <EuiPageTemplate restrictWidth="1000px">
-            <EuiSideNav items={sideNavItems} aria-label="Side Navigation" />
-            <Routes>
-              {/* Home Route */}
-              <Route
-                path="/chat"
-                render={() => (
-                    <EuiPageTemplate.Section>
-                      <ChatInterface />
-                    </EuiPageTemplate.Section>
-                )}
-              />
-            </Routes>
+
+          {/* Main layout */}
+          <EuiPageTemplate
+            panelled={false}
+          >
+            <div style={{ display: 'flex', height: '100vh' }}>
+              {/* Sidebar */}
+              <div
+                style={{
+                  flex: 1,
+                }}>
+                <EuiSideNav
+                  items={sideNavItems}
+                  aria-label="Side Navigation"
+                />
+              </div>
+
+              {/* Main Content */}
+              <div style={{ flex: 7, margin: '0 3rem 0 3rem' }}>
+                <Routes>
+                  <Route
+                    path="/chat"
+                    component={() => (
+                        <ChatInterface />
+                    )}
+                  />
+                </Routes>
+              </div>
+            </div>
           </EuiPageTemplate>
         </>
       </I18nProvider>
