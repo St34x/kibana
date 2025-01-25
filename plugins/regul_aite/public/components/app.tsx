@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState }from 'react';
 import { I18nProvider } from '@kbn/i18n-react';
-import { BrowserRouter as Router, Route, Routes } from '@kbn/shared-ux-router';
-import { EuiPageTemplate, EuiSideNav } from '@elastic/eui';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from '@kbn/shared-ux-router';
+import {
+  EuiPageTemplate,
+  EuiSideNav,
+  EuiProvider,
+  EuiButton,
+} from '@elastic/eui';
 import type { CoreStart } from '@kbn/core/public';
 import type { NavigationPublicPluginStart } from '@kbn/navigation-plugin/public';
-import { PLUGIN_ID } from '../../common';
 import ChatInterface from './chat/chat-interface';
+import "./app.scss";
 
 interface RegulAiteAppDeps {
   basename: string;
@@ -14,57 +23,79 @@ interface RegulAiteAppDeps {
   navigation: NavigationPublicPluginStart;
 }
 
-export const RegulAiteApp = ({ basename, notifications, http, navigation }: RegulAiteAppDeps) => {
+export const RegulAiteApp = ({
+  basename,
+  notifications,
+  http,
+  navigation,
+}: RegulAiteAppDeps) => {
   const sideNavItems = [
     {
       name: 'RegulAIte',
       id: 'main',
-      href: `${basename}`,
-      items: [{ name: 'Chat', id: 'chat', href: `${basename}/chat` }],
+      href: `#`,
+      items: [
+        {
+          name: 'Chat',
+          id: 'chat',
+          href: `${basename}/chat`,
+        },
+      ],
     },
   ];
 
-  return (
-    <Router basename={basename}>
-      <I18nProvider>
-        <>
-          <navigation.ui.TopNavMenu
-            appName={PLUGIN_ID}
-            showSearchBar={false}
-            useDefaultBehaviors={true}
-          />
+  // Local state for color mode
+  const [colorMode, setColorMode] = useState<'light' | 'dark'>('dark');
 
-          {/* Main layout */}
-          <EuiPageTemplate
-            panelled={false}
-          >
-            <div style={{ display: 'flex', height: '100vh' }}>
-              {/* Sidebar */}
-              <div
-                style={{
-                  flex: 1,
-                }}>
+  const toggleColorMode = () => {
+    setColorMode((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  return (
+      <Router basename={basename}>
+        <I18nProvider>
+          {/*
+            1) The Kibana top nav
+            2) The main page template below
+          */}
+
+          <EuiProvider colorMode={colorMode}>
+            {/* A button to toggle dark/light for this plugin only */}
+            <div style={{ padding: '1rem' }}>
+              <EuiButton onClick={toggleColorMode}>
+                Switch to {colorMode === 'light' ? 'dark' : 'light'} theme
+              </EuiButton>
+            </div>
+
+            {/*
+              EuiPageTemplate is the main wrapper.
+              `grow` ensures it can fill available height.
+            */}
+            <EuiPageTemplate
+              panelled={false}
+              grow={true}
+            >
+              {/* SIDEBAR */}
+              <EuiPageTemplate.Sidebar sticky>
                 <EuiSideNav
                   items={sideNavItems}
                   aria-label="Side Navigation"
                 />
-              </div>
+              </EuiPageTemplate.Sidebar>
 
-              {/* Main Content */}
-              <div style={{ flex: 7, margin: '0 3rem 0 3rem' }}>
+              {/* MAIN CONTENT AREA */}
+              <EuiPageTemplate.Section>
                 <Routes>
                   <Route
                     path="/chat"
-                    component={() => (
-                        <ChatInterface />
-                    )}
+                    component={ChatInterface}
                   />
+                  {/* Add additional routes here if needed */}
                 </Routes>
-              </div>
-            </div>
-          </EuiPageTemplate>
-        </>
-      </I18nProvider>
-    </Router>
+              </EuiPageTemplate.Section>
+            </EuiPageTemplate>
+          </EuiProvider>
+        </I18nProvider>
+      </Router>
   );
 };
