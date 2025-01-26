@@ -22,7 +22,8 @@ export default function MessageBubble({ message }: MessageProps) {
     >
       <div
         style={{
-          maxWidth: '80%',
+          minWidth:'33%',
+          maxWidth: '70%',
           borderRadius: '8px',
           padding: '12px',
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
@@ -36,7 +37,10 @@ export default function MessageBubble({ message }: MessageProps) {
           color="subdued"
           style={{ marginTop: '4px', textAlign: isUser ? 'right' : 'left' }}
         >
-          {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          {new Date(message.timestamp).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
         </EuiText>
       </div>
     </div>

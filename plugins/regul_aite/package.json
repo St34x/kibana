@@ -8,6 +8,8 @@
     "dev": "yarn plugin-helpers dev",
     "plugin-helpers": "node ../../scripts/plugin_helpers",
     "kbn": "node ../../scripts/kbn"
+  },
+  "dependencies": {
+    "uuid": "^11.0.5"
   }
 }
-
